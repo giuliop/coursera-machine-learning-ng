@@ -23,11 +23,28 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+if false
+    cc = [0.3; 1; 3]; % the possible Cs
+    ss = [0.03; 0.1; 0.03]; %0.1; 0.3; 1]; % the possible sigmas
+    E = zeros(size(cc),size(ss)); % Eij will be the cross error for cc(i) and ss(j)
 
+    for c = 1:size(cc)
+        for s = 1:size(ss)
+            model = svmTrain(X, y, cc(c), @(x1, x2) gaussianKernel(x1, x2, ss(s)));
+            predictions = svmPredict(model, Xval);
+            E(c,s) = mean(double(predictions ~= yval));
+        end
+    end
 
+    [e, c_per_col] = min(E); % min per column and relative row index
+    [e, s] = min(e); % final min and min column index
 
+    C = cc(c_per_col(s));
+    sigma = ss(s);
+end
 
-
+C = 1;
+sigma = 0.1;
 
 % =========================================================================
 
