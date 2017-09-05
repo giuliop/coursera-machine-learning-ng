@@ -26,7 +26,14 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+% Logical matrix where i,j == 1 if idx(j) == i (that is row j of X is closest to
+% centroid i
+C = zeros(K,m);
+for i = 1:K
+    C(i, find(idx == i)) = 1
+end
 
+centroids = C * X ./ sum(C,2);
 
 
 
