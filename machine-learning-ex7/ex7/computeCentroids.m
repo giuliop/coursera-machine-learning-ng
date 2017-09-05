@@ -30,7 +30,7 @@ centroids = zeros(K, n);
 % centroid i
 C = zeros(K,m);
 for i = 1:K
-    C(i, find(idx == i)) = 1
+    C(i, find(idx == i)) = 1;
 end
 
 centroids = C * X ./ sum(C,2);
